@@ -64,3 +64,52 @@ body.dark-mode .theme-toggle {
 body.dark-mode .theme-toggle:hover {
   background: #5d4037;
 }
+
+/* Task List */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+body.dark-mode li {
+  background: rgba(60, 60, 60, 0.6);
+}
+
+body.dark-mode li.completed {
+  background: rgba(100, 100, 100, 0.5);
+  color: #aaa;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+}
+
+body.dark-mode .delete-btn {
+  background: #a83232;
+}
+
+body.dark-mode .delete-btn:hover {
+  background: #922727;
+}
