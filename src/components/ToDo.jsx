@@ -2,109 +2,69 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 
+const API_URL = "https://todojango.onrender.com/api/tasks/";
+
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
   const [editingTask, setEditingTask] = useState(null);
   const [editText, setEditText] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
-  // Fetch tasks from deployed Django API
+  // Fetch tasks from API
   useEffect(() => {
-    axios
-      .get("https://todojango.onrender.com/api/tasks/")
-      .then((response) => setTasks(response.data))
-      .catch((error) => console.error("Error fetching tasks:", error));
-
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setDarkMode(true);
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
+    axios.get(API_URL)
+      .then(response => setTasks(response.data))
+      .catch(error => console.error("Error fetching tasks:", error));
   }, []);
 
+  // Apply dark mode
   useEffect(() => {
-    // Update localStorage and body class on darkMode change
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
     document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
-  // Add new task (POST)
+  // Add new task
   const addTask = () => {
     if (newTask.trim() === "") return;
-    axios
-      .post("https://todojango.onrender.com/api/tasks/", {
-        text: newTask,
-        completed: false,
-      })
-      .then((response) => setTasks([...tasks, response.data]))
-      .catch((error) => console.error("Error adding task:", error));
+    axios.post(API_URL, { text: newTask, completed: false })
+      .then(response => setTasks([...tasks, response.data]))
+      .catch(error => console.error("Error adding task:", error));
     setNewTask("");
   };
 
-  // Toggle completion status (PATCH)
+  // Toggle completion
   const toggleCompletion = (id, completed) => {
-    axios
-      .patch(`https://todojango.onrender.com/api/tasks/${id}/`, { completed: !completed })
-      .then(() =>
-        setTasks(
-          tasks.map((task) =>
-            task.id === id ? { ...task, completed: !completed } : task
-          )
-        )
-      )
-      .catch((error) => console.error("Error updating task:", error));
+    axios.patch(`${API_URL}${id}/`, { completed: !completed })
+      .then(() => setTasks(tasks.map(task => task.id === id ? { ...task, completed: !completed } : task)))
+      .catch(error => console.error("Error updating task:", error));
   };
 
-  // Enable edit mode
-  const startEditing = (id, text) => {
-    setEditingTask(id);
-    setEditText(text);
-  };
-
-  // Save edited task (PATCH)
+  // Edit task
   const saveEdit = (id) => {
-    axios
-      .patch(`https://todojango.onrender.com/api/tasks/${id}/`, { text: editText })
+    axios.patch(`${API_URL}${id}/`, { text: editText })
       .then(() => {
-        setTasks(
-          tasks.map((task) =>
-            task.id === id ? { ...task, text: editText } : task
-          )
-        );
+        setTasks(tasks.map(task => task.id === id ? { ...task, text: editText } : task));
         setEditingTask(null);
       })
-      .catch((error) => console.error("Error editing task:", error));
+      .catch(error => console.error("Error editing task:", error));
   };
 
-  // Cancel edit
-  const cancelEdit = () => {
-    setEditingTask(null);
-    setEditText("");
-  };
-
-  // Delete task (DELETE)
+  // Delete task
   const deleteTask = (id) => {
-    axios
-      .delete(`https://todojango.onrender.com/api/tasks/${id}/`)
-      .then(() => setTasks(tasks.filter((task) => task.id !== id)))
-      .catch((error) => console.error("Error deleting task:", error));
+    axios.delete(`${API_URL}${id}/`)
+      .then(() => setTasks(tasks.filter(task => task.id !== id)))
+      .catch(error => console.error("Error deleting task:", error));
   };
 
   // Filter tasks
-  const filteredTasks = tasks.filter((task) =>
-    filter === "completed"
-      ? task.completed
-      : filter === "pending"
-      ? !task.completed
-      : true
+  const filteredTasks = tasks.filter(task =>
+    filter === "completed" ? task.completed : filter === "pending" ? !task.completed : true
   );
 
   return (
-    <div className={`app-container ${darkMode ? "dark-mode" : ""}`}>
+    <div className="app-container">
       <h1>React TODO App</h1>
       <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
@@ -133,6 +93,7 @@ export default function ToDo() {
                 checked={task.completed}
                 onChange={() => toggleCompletion(task.id, task.completed)}
               />
+
               {editingTask === task.id ? (
                 <>
                   <input
@@ -141,17 +102,13 @@ export default function ToDo() {
                     onChange={(e) => setEditText(e.target.value)}
                   />
                   <button onClick={() => saveEdit(task.id)}>✅ Save</button>
-                  <button onClick={cancelEdit}>❌ Cancel</button>
+                  <button onClick={() => setEditingTask(null)}>❌ Cancel</button>
                 </>
               ) : (
                 <>
                   <span>{task.text}</span>
-                  <button onClick={() => startEditing(task.id, task.text)}>
-                    ✏️ Edit
-                  </button>
-                  <button className="delete-btn" onClick={() => deleteTask(task.id)}>
-                    ❌
-                  </button>
+                  <button onClick={() => { setEditingTask(task.id); setEditText(task.text); }}>✏️ Edit</button>
+                  <button className="delete-btn" onClick={() => deleteTask(task.id)}>❌</button>
                 </>
               )}
             </li>
