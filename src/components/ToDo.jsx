@@ -8,27 +8,18 @@ export default function ToDo() {
   const [filter, setFilter] = useState("all");
   const [editingTask, setEditingTask] = useState(null);
   const [editText, setEditText] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
   // Fetch tasks from Django API
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/tasks/")
       .then(response => setTasks(response.data))
       .catch(error => console.error("Error fetching tasks:", error));
-
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setDarkMode(true);
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
-    document.body.classList.toggle("dark-mode", darkMode);
-    console.log('Dark Mode:', darkMode); // Debugging line
+    document.body.className = darkMode ? "dark-mode" : "";
   }, [darkMode]);
 
   // Add new task (POST)
@@ -135,4 +126,4 @@ export default function ToDo() {
       </div>
     </div>
   );
-}
+} 
