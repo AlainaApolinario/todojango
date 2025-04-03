@@ -40,6 +40,22 @@ body.dark-mode #root {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* App Container */
+.app-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .app-container {
+  background: rgba(50, 50, 50, 0.9);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 /* Text Improvements */
 h1 {
   font-size: 24px;
@@ -85,16 +101,15 @@ ul {
 }
 
 li {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: bold;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+  padding: 10px;
+  margin: 5px 0;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, box-shadow 0.2s ease;
 }
 
 li:hover {
@@ -121,24 +136,23 @@ body.dark-mode li.completed {
 /* Add Task Button */
 button,
 .delete-btn {
-  background: #ff85a2;
-  color: white;
-  border: none;
   padding: 10px 15px;
-  border-radius: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  font-weight: bold;
 }
 
 button:hover {
-  background: #ff6584;
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode button {
   background: #ff85a2;
+  color: white;
 }
 
 body.dark-mode button:hover {
@@ -173,18 +187,17 @@ body.dark-mode .delete-btn:hover {
 
 /* Input Field */
 input[type="text"] {
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 10px;
-  margin: 10px 0;
-  border: 2px solid #ff85a2;
-  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
   transition: border-color 0.3s ease, box-shadow 0.2s ease;
-  font-weight: bold;
-  text-align: center;
 }
 
 input[type="text"]:focus {
-  border-color: #ff6584;
+  border-color: #4caf50;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   outline: none;
 }
@@ -192,11 +205,11 @@ input[type="text"]:focus {
 body.dark-mode input[type="text"] {
   background: rgba(50, 50, 50, 0.8);
   color: #f1f1f1;
-  border: 2px solid #fff;
+  border: 1px solid #666;
 }
 
 body.dark-mode input[type="text"]:focus {
-  border-color: #ff85a2;
+  border-color: #388e3c;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -212,4 +225,35 @@ body.dark-mode input[type="text"]:focus {
 
 .star-icon {
   color: gold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-container {
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  li span {
+    margin-bottom: 5px;
+  }
+
+  li button {
+    margin: 5px 0;
+  }
 }
