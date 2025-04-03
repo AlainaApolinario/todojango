@@ -1,9 +1,12 @@
+/* Import Cute Font */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+
 /* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Quicksand", sans-serif;
+  font-family: "Comic Neue", cursive;
 }
 
 /* Light Mode */
@@ -27,7 +30,7 @@ body.dark-mode {
 #root {
   width: 420px;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -40,7 +43,7 @@ body.dark-mode #root {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Theme Toggle Button */
+/* ✨ Cute Theme Toggle Button */
 .theme-toggle {
   background: #ff85a2;
   color: white;
@@ -54,21 +57,22 @@ body.dark-mode #root {
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.theme-toggle::before {
+  content: "🌙";
+  margin-right: 8px;
+}
+
+body.dark-mode .theme-toggle::before {
+  content: "☀️";
+}
+
 .theme-toggle:hover {
   background: #ff6781;
   transform: scale(1.1);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-body.dark-mode .theme-toggle {
-  background: #d77a7a;
-}
-
-body.dark-mode .theme-toggle:hover {
-  background: #c06a6a;
-}
-
-/* Task List */
+/* 📝 Task List */
 ul {
   list-style: none;
   padding: 0;
@@ -84,6 +88,13 @@ li {
   align-items: center;
   transition: background 0.3s ease, box-shadow 0.2s ease;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+}
+
+li::before {
+  content: "⭐ ";
+  font-size: 16px;
+  color: #ff85a2;
 }
 
 li:hover {
@@ -92,23 +103,17 @@ li:hover {
   transform: scale(1.02);
 }
 
-body.dark-mode li {
-  background: rgba(60, 60, 60, 0.6);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode li:hover {
-  background: rgba(70, 70, 70, 0.7);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode li.completed {
-  background: rgba(80, 80, 80, 0.5);
-  color: #f9f9f9;
+/* 🎀 Completed Task Style */
+li.completed {
   text-decoration: line-through;
+  opacity: 0.7;
 }
 
-/* Cute Add Task Button */
+li.completed::before {
+  content: "💖 ";
+}
+
+/* 🎀 Cute Add Task Button */
 button,
 .delete-btn {
   background: #ffb6c1;
@@ -120,21 +125,17 @@ button,
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+button::before {
+  content: "✨ ";
+}
+
 button:hover {
   background: #ff8fa3;
   transform: scale(1.1);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-body.dark-mode button {
-  background: #d77a7a;
-}
-
-body.dark-mode button:hover {
-  background: #c06a6a;
-}
-
-/* Transparent Delete Button */
+/* 🗑 Cute Delete Button */
 .delete-btn {
   background: transparent;
   color: #e57373;
@@ -145,6 +146,10 @@ body.dark-mode button:hover {
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.delete-btn::before {
+  content: "🗑 ";
+}
+
 .delete-btn:hover {
   background: #e57373;
   color: white;
@@ -152,19 +157,7 @@ body.dark-mode button:hover {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-body.dark-mode .delete-btn {
-  background: transparent;
-  color: #b24c4c;
-  border: 2px solid #b24c4c;
-}
-
-body.dark-mode .delete-btn:hover {
-  background: #b24c4c;
-  color: white;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Input Field */
+/* 💖 Input Field */
 input[type="text"] {
   width: calc(100% - 24px);
   padding: 12px;
@@ -177,44 +170,37 @@ input[type="text"] {
   transition: border-color 0.3s ease, box-shadow 0.2s ease;
 }
 
+input[type="text"]::placeholder {
+  text-align: center;
+  color: #ff85a2;
+}
+
 input[type="text"]:focus {
   border-color: #ff6781;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   outline: none;
 }
 
-body.dark-mode input[type="text"] {
-  background: rgba(50, 50, 50, 0.8);
-  color: #f9f9f9;
-  border: 2px solid #c06a6a;
-}
-
-body.dark-mode input[type="text"]:focus {
-  border-color: #a64d4d;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Cute Animations */
-@keyframes pop {
+/* 🌟 Kawaii Sparkle Effect */
+@keyframes sparkle {
   0% {
-    transform: scale(1);
+    opacity: 0;
+    transform: scale(0.8);
   }
   50% {
-    transform: scale(1.05);
-  }
-  100% {
+    opacity: 1;
     transform: scale(1);
   }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
 }
 
-button:active {
-  animation: pop 0.2s ease;
-}
-
-.delete-btn:active {
-  animation: pop 0.2s ease;
-}
-
-li:active {
-  animation: pop 0.2s ease;
+.sparkle {
+  position: absolute;
+  color: #ff85a2;
+  font-size: 20px;
+  animation: sparkle 1s ease-out;
+  pointer-events: none;
 }
