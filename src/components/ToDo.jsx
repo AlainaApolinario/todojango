@@ -10,11 +10,12 @@ export default function ToDo() {
   const [editText, setEditText] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
-  // Fetch tasks from Django API
+  // Fetch tasks from deployed Django API
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/tasks/")
-      .then(response => setTasks(response.data))
-      .catch(error => console.error("Error fetching tasks:", error));
+    axios
+      .get("https://todojango.onrender.com/api/tasks/")
+      .then((response) => setTasks(response.data))
+      .catch((error) => console.error("Error fetching tasks:", error));
 
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -26,6 +27,7 @@ export default function ToDo() {
   }, []);
 
   useEffect(() => {
+    // Update localStorage and body class on darkMode change
     localStorage.setItem("theme", darkMode ? "dark" : "light");
     document.body.classList.toggle("dark-mode", darkMode);
   }, [darkMode]);
@@ -33,17 +35,28 @@ export default function ToDo() {
   // Add new task (POST)
   const addTask = () => {
     if (newTask.trim() === "") return;
-    axios.post("http://127.0.0.1:8000/api/tasks/", { text: newTask, completed: false })
-      .then(response => setTasks([...tasks, response.data]))
-      .catch(error => console.error("Error adding task:", error));
+    axios
+      .post("https://todojango.onrender.com/api/tasks/", {
+        text: newTask,
+        completed: false,
+      })
+      .then((response) => setTasks([...tasks, response.data]))
+      .catch((error) => console.error("Error adding task:", error));
     setNewTask("");
   };
 
   // Toggle completion status (PATCH)
   const toggleCompletion = (id, completed) => {
-    axios.patch(`http://127.0.0.1:8000/api/tasks/${id}/`, { completed: !completed })
-      .then(() => setTasks(tasks.map(task => task.id === id ? { ...task, completed: !completed } : task)))
-      .catch(error => console.error("Error updating task:", error));
+    axios
+      .patch(`https://todojango.onrender.com/api/tasks/${id}/`, { completed: !completed })
+      .then(() =>
+        setTasks(
+          tasks.map((task) =>
+            task.id === id ? { ...task, completed: !completed } : task
+          )
+        )
+      )
+      .catch((error) => console.error("Error updating task:", error));
   };
 
   // Enable edit mode
@@ -54,12 +67,17 @@ export default function ToDo() {
 
   // Save edited task (PATCH)
   const saveEdit = (id) => {
-    axios.patch(`http://127.0.0.1:8000/api/tasks/${id}/`, { text: editText })
+    axios
+      .patch(`https://todojango.onrender.com/api/tasks/${id}/`, { text: editText })
       .then(() => {
-        setTasks(tasks.map(task => task.id === id ? { ...task, text: editText } : task));
+        setTasks(
+          tasks.map((task) =>
+            task.id === id ? { ...task, text: editText } : task
+          )
+        );
         setEditingTask(null);
       })
-      .catch(error => console.error("Error editing task:", error));
+      .catch((error) => console.error("Error editing task:", error));
   };
 
   // Cancel edit
@@ -70,18 +88,23 @@ export default function ToDo() {
 
   // Delete task (DELETE)
   const deleteTask = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`)
-      .then(() => setTasks(tasks.filter(task => task.id !== id)))
-      .catch(error => console.error("Error deleting task:", error));
+    axios
+      .delete(`https://todojango.onrender.com/api/tasks/${id}/`)
+      .then(() => setTasks(tasks.filter((task) => task.id !== id)))
+      .catch((error) => console.error("Error deleting task:", error));
   };
 
   // Filter tasks
-  const filteredTasks = tasks.filter(task => 
-    filter === "completed" ? task.completed : filter === "pending" ? !task.completed : true
+  const filteredTasks = tasks.filter((task) =>
+    filter === "completed"
+      ? task.completed
+      : filter === "pending"
+      ? !task.completed
+      : true
   );
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${darkMode ? "dark-mode" : ""}`}>
       <h1>React TODO App</h1>
       <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
@@ -110,7 +133,6 @@ export default function ToDo() {
                 checked={task.completed}
                 onChange={() => toggleCompletion(task.id, task.completed)}
               />
-              
               {editingTask === task.id ? (
                 <>
                   <input
@@ -124,8 +146,12 @@ export default function ToDo() {
               ) : (
                 <>
                   <span>{task.text}</span>
-                  <button onClick={() => startEditing(task.id, task.text)}>✏️ Edit</button>
-                  <button className="delete-btn" onClick={() => deleteTask(task.id)}>❌</button>
+                  <button onClick={() => startEditing(task.id, task.text)}>
+                    ✏️ Edit
+                  </button>
+                  <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+                    ❌
+                  </button>
                 </>
               )}
             </li>
