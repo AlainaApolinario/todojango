@@ -27,6 +27,15 @@ export default function ToDo() {
   const toggleDarkMode = () => {
     const newTheme = !darkMode;
     setDarkMode(newTheme);
+
+    // Update the body class immediately
+    if (newTheme) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    // Save the theme to localStorage
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
