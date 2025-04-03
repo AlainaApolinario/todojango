@@ -174,7 +174,7 @@ li input[type="checkbox"] {
 
 /* Dark Mode Task List */
 .dark-mode li {
-  background: rgba(60, 60, 60, 0.6);
+  background: rgba(60, 60, 60, 0.7);
 }
 
 .dark-mode li.completed {

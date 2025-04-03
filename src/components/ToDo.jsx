@@ -28,6 +28,7 @@ export default function ToDo() {
   useEffect(() => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
     document.body.classList.toggle("dark-mode", darkMode);
+    console.log('Dark Mode:', darkMode); // Debugging line
   }, [darkMode]);
 
   // Add new task (POST)
