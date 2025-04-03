@@ -51,12 +51,13 @@ body.dark-mode #root {
   cursor: pointer;
   margin-bottom: 15px;
   font-weight: bold;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .theme-toggle:hover {
   background: #e64a19;
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode .theme-toggle {
@@ -81,25 +82,29 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 li:hover {
   background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode li {
   background: rgba(60, 60, 60, 0.6);
-  transition: background 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode li:hover {
   background: rgba(70, 70, 70, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 body.dark-mode li.completed {
   background: rgba(80, 80, 80, 0.5);
   color: #f1f1f1;
+  text-decoration: line-through;
 }
 
 /* Add Task Button */
@@ -108,15 +113,16 @@ button,
   background: #4caf50;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
+  padding: 10px 15px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   background: #43a047;
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode button {
@@ -125,21 +131,62 @@ body.dark-mode button {
 
 body.dark-mode button:hover {
   background: #2e7d32;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Delete Button */
+/* Transparent Delete Button */
 .delete-btn {
-  background: #d32f2f;
+  background: transparent; 
+  color: #d32f2f; 
+  border: 2px solid #d32f2f; 
+  padding: 8px 12px; 
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .delete-btn:hover {
-  background: #b71c1c;
+  background: #d32f2f; 
+  color: white; 
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode .delete-btn {
-  background: #a83232;
+  background: transparent; 
+  color: #a83232;
+  border: 2px solid #a83232; 
 }
 
 body.dark-mode .delete-btn:hover {
-  background: #922727;
+  background: #a83232; 
+  color: white; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Input Field */
+input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #4caf50;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+body.dark-mode input[type="text"] {
+  background: rgba(50, 50, 50, 0.8);
+  color: #f1f1f1;
+  border: 1px solid #666;
+}
+
+body.dark-mode input[type="text"]:focus {
+  border-color: #388e3c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
