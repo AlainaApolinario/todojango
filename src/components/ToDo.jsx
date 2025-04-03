@@ -3,6 +3,7 @@ import axios from "axios";
 import "../App.css";
 
 export default function ToDo() {
+  const API_URL = "https://todojango.onrender.com/api/tasks/";
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
@@ -11,64 +12,74 @@ export default function ToDo() {
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
   // Fetch tasks from Django API
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setTasks(response.data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/tasks/")
-      .then(response => setTasks(response.data))
-      .catch(error => console.error("Error fetching tasks:", error));
+    fetchTasks();
   }, []);
 
   useEffect(() => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
-    document.body.className = darkMode ? "dark-mode" : "";
+    document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
-  // Add new task (POST)
-  const addTask = () => {
-    if (newTask.trim() === "") return;
-    axios.post("http://127.0.0.1:8000/api/tasks/", { text: newTask, completed: false })
-      .then(response => setTasks([...tasks, response.data]))
-      .catch(error => console.error("Error adding task:", error));
-    setNewTask("");
+  // Add new task
+  const addTask = async () => {
+    if (!newTask.trim()) return;
+    try {
+      await axios.post(API_URL, { text: newTask, completed: false });
+      setNewTask("");
+      fetchTasks(); // Refetch tasks instead of manually updating state
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
-  // Toggle completion status (PATCH)
-  const toggleCompletion = (id, completed) => {
-    axios.patch(`http://127.0.0.1:8000/api/tasks/${id}/`, { completed: !completed })
-      .then(() => setTasks(tasks.map(task => task.id === id ? { ...task, completed: !completed } : task)))
-      .catch(error => console.error("Error updating task:", error));
+  // Toggle task completion
+  const toggleCompletion = async (id, completed) => {
+    try {
+      await axios.patch(`${API_URL}${id}/`, { completed: !completed });
+      fetchTasks();
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
-  // Enable edit mode
+  // Start editing a task
   const startEditing = (id, text) => {
     setEditingTask(id);
     setEditText(text);
   };
 
-  // Save edited task (PATCH)
-  const saveEdit = (id) => {
-    axios.patch(`http://127.0.0.1:8000/api/tasks/${id}/`, { text: editText })
-      .then(() => {
-        setTasks(tasks.map(task => task.id === id ? { ...task, text: editText } : task));
-        setEditingTask(null);
-      })
-      .catch(error => console.error("Error editing task:", error));
+  // Save edited task
+  const saveEdit = async (id) => {
+    try {
+      await axios.patch(`${API_URL}${id}/`, { text: editText });
+      setEditingTask(null);
+      fetchTasks();
+    } catch (error) {
+      console.error("Error editing task:", error);
+    }
   };
 
-  // Cancel edit
-  const cancelEdit = () => {
-    setEditingTask(null);
-    setEditText("");
+  // Delete task
+  const deleteTask = async (id) => {
+    try {
+      await axios.delete(`${API_URL}${id}/`);
+      fetchTasks();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
-  // Delete task (DELETE)
-  const deleteTask = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`)
-      .then(() => setTasks(tasks.filter(task => task.id !== id)))
-      .catch(error => console.error("Error deleting task:", error));
-  };
-
-  // Filter tasks
-  const filteredTasks = tasks.filter(task => 
+  const filteredTasks = tasks.filter((task) =>
     filter === "completed" ? task.completed : filter === "pending" ? !task.completed : true
   );
 
@@ -89,9 +100,11 @@ export default function ToDo() {
         <button onClick={addTask}>Add</button>
 
         <div className="filters">
-          <button onClick={() => setFilter("all")}>All</button>
-          <button onClick={() => setFilter("completed")}>Completed</button>
-          <button onClick={() => setFilter("pending")}>Pending</button>
+          {["all", "completed", "pending"].map((status) => (
+            <button key={status} onClick={() => setFilter(status)}>
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </button>
+          ))}
         </div>
 
         <ul>
@@ -102,7 +115,6 @@ export default function ToDo() {
                 checked={task.completed}
                 onChange={() => toggleCompletion(task.id, task.completed)}
               />
-              
               {editingTask === task.id ? (
                 <>
                   <input
@@ -111,7 +123,7 @@ export default function ToDo() {
                     onChange={(e) => setEditText(e.target.value)}
                   />
                   <button onClick={() => saveEdit(task.id)}>✅ Save</button>
-                  <button onClick={cancelEdit}>❌ Cancel</button>
+                  <button onClick={() => setEditingTask(null)}>❌ Cancel</button>
                 </>
               ) : (
                 <>
@@ -126,4 +138,4 @@ export default function ToDo() {
       </div>
     </div>
   );
-} 
+}
