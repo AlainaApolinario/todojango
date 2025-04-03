@@ -1,206 +1,215 @@
-/* Import Cute Font */
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
-
 /* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Comic Neue", cursive;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Light Mode */
 body {
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  background: linear-gradient(135deg, #ffdee9, #b5fffc);
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-  color: #555;
+  color: #333;
 }
 
 /* Dark Mode */
 body.dark-mode {
-  background: linear-gradient(135deg, #423f3e, #1e1e1e);
-  color: #f9f9f9;
+  background: linear-gradient(135deg, #1e1e2e, #252538);
+  color: #fff;
 }
 
 /* Main Container */
 #root {
-  width: 420px;
-  padding: 25px;
-  background: rgba(255, 255, 255, 0.8);
+  width: 400px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 body.dark-mode #root {
-  background: rgba(40, 40, 40, 0.7);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(50, 50, 50, 0.3);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* ✨ Cute Theme Toggle Button */
+/* Text Improvements */
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode h1 {
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Theme Toggle Button */
 .theme-toggle {
   background: #ff85a2;
   color: white;
   border: none;
-  padding: 12px 18px;
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
   cursor: pointer;
   margin-bottom: 15px;
   font-weight: bold;
-  font-size: 16px;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.theme-toggle::before {
-  content: "🌙";
-  margin-right: 8px;
-}
-
-body.dark-mode .theme-toggle::before {
-  content: "☀️";
-}
-
 .theme-toggle:hover {
-  background: #ff6781;
-  transform: scale(1.1);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background: #ff6584;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 📝 Task List */
+body.dark-mode .theme-toggle {
+  background: #6d4c41;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background: #5d4037;
+}
+
+/* Task List */
 ul {
   list-style: none;
   padding: 0;
 }
 
 li {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  font-size: 18px;
-}
-
-li::before {
-  content: "⭐ ";
-  font-size: 16px;
-  color: #ff85a2;
+  font-weight: bold;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 li:hover {
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 🎀 Completed Task Style */
-li.completed {
+body.dark-mode li {
+  background: rgba(60, 60, 60, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode li:hover {
+  background: rgba(70, 70, 70, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode li.completed {
+  background: rgba(80, 80, 80, 0.5);
+  color: #f1f1f1;
   text-decoration: line-through;
-  opacity: 0.7;
 }
 
-li.completed::before {
-  content: "💖 ";
-}
-
-/* 🎀 Cute Add Task Button */
+/* Add Task Button */
 button,
 .delete-btn {
-  background: #ffb6c1;
+  background: #ff85a2;
   color: white;
   border: none;
-  padding: 12px 18px;
-  border-radius: 12px;
+  padding: 10px 15px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-button::before {
-  content: "✨ ";
+  font-weight: bold;
 }
 
 button:hover {
-  background: #ff8fa3;
-  transform: scale(1.1);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background: #ff6584;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 🗑 Cute Delete Button */
+body.dark-mode button {
+  background: #ff85a2;
+}
+
+body.dark-mode button:hover {
+  background: #ff6584;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Transparent Delete Button */
 .delete-btn {
-  background: transparent;
-  color: #e57373;
-  border: 2px solid #e57373;
-  padding: 8px 12px;
-  border-radius: 12px;
+  background: transparent; 
+  color: #d32f2f; 
+  border: 2px solid #d32f2f; 
+  padding: 8px 12px; 
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.delete-btn::before {
-  content: "🗑 ";
 }
 
 .delete-btn:hover {
-  background: #e57373;
-  color: white;
-  transform: scale(1.1);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background: #d32f2f; 
+  color: white; 
 }
 
-/* 💖 Input Field */
+body.dark-mode .delete-btn {
+  color: #a83232;
+  border: 2px solid #a83232; 
+}
+
+body.dark-mode .delete-btn:hover {
+  background: #a83232; 
+  color: white; 
+}
+
+/* Input Field */
 input[type="text"] {
-  width: calc(100% - 24px);
-  padding: 12px;
+  width: calc(100% - 20px);
+  padding: 10px;
   margin: 10px 0;
   border: 2px solid #ff85a2;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.8);
-  font-size: 16px;
-  text-align: center;
+  border-radius: 10px;
   transition: border-color 0.3s ease, box-shadow 0.2s ease;
-}
-
-input[type="text"]::placeholder {
+  font-weight: bold;
   text-align: center;
-  color: #ff85a2;
 }
 
 input[type="text"]:focus {
-  border-color: #ff6781;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  border-color: #ff6584;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   outline: none;
 }
 
-/* 🌟 Kawaii Sparkle Effect */
-@keyframes sparkle {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.2);
-  }
+body.dark-mode input[type="text"] {
+  background: rgba(50, 50, 50, 0.8);
+  color: #f1f1f1;
+  border: 2px solid #fff;
 }
 
-.sparkle {
-  position: absolute;
-  color: #ff85a2;
-  font-size: 20px;
-  animation: sparkle 1s ease-out;
-  pointer-events: none;
+body.dark-mode input[type="text"]:focus {
+  border-color: #ff85a2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Kawaii-Themed Icons */
+.emoji-icon {
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.heart-icon {
+  color: #ff6584;
+}
+
+.star-icon {
+  color: gold;
 }
