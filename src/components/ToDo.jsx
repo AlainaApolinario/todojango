@@ -6,8 +6,8 @@ export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
-  const [editingTask, setEditingTask] = useState(null);
-  const [editText, setEditText] = useState("");
+  const [editingTask, setEditingTask] = useState(null); // Track the task being edited
+  const [editText, setEditText] = useState(""); // Track the new text for the task
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
@@ -64,6 +64,34 @@ export default function ToDo() {
       .catch((error) => console.error("Error deleting task:", error));
   };
 
+  const startEditing = (task) => {
+    setEditingTask(task.id);
+    setEditText(task.text);
+  };
+
+  const cancelEditing = () => {
+    setEditingTask(null);
+    setEditText("");
+  };
+
+  const saveEdit = (id) => {
+    if (editText.trim() === "") return;
+    axios
+      .patch(`https://todojango.onrender.com/api/tasks/${id}/`, {
+        text: editText,
+      })
+      .then(() => {
+        setTasks(
+          tasks.map((task) =>
+            task.id === id ? { ...task, text: editText } : task
+          )
+        );
+        setEditingTask(null);
+        setEditText("");
+      })
+      .catch((error) => console.error("Error editing task:", error));
+  };
+
   const filteredTasks = tasks.filter((task) =>
     filter === "completed" ? task.completed : filter === "pending" ? !task.completed : true
   );
@@ -93,15 +121,30 @@ export default function ToDo() {
         <ul>
           {filteredTasks.map((task) => (
             <li key={task.id} className={task.completed ? "completed" : ""}>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleCompletion(task.id, task.completed)}
-              />
-              <span>{task.text}</span>
-              <button className="delete-btn" onClick={() => deleteTask(task.id)}>
-                ❌
-              </button>
+              {editingTask === task.id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                  <button onClick={() => saveEdit(task.id)}>Save</button>
+                  <button onClick={cancelEditing}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => toggleCompletion(task.id, task.completed)}
+                  />
+                  <span>{task.text}</span>
+                  <button onClick={() => startEditing(task)}>✏️ Edit</button>
+                  <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+                    ❌
+                  </button>
+                </>
+              )}
             </li>
           ))}
         </ul>

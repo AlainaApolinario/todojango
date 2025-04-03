@@ -14,12 +14,14 @@ body {
   align-items: center;
   min-height: 100vh;
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: #333;
 }
 
 /* Dark Mode */
 body.dark-mode {
   background: linear-gradient(135deg, #2b2b2b, #121212);
   color: #f1f1f1;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 /* Main Container */
@@ -31,9 +33,9 @@ body.dark-mode {
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* Dark Mode Container */
 body.dark-mode #root {
   background: rgba(50, 50, 50, 0.3);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
@@ -49,14 +51,14 @@ body.dark-mode #root {
   cursor: pointer;
   margin-bottom: 15px;
   font-weight: bold;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .theme-toggle:hover {
   background: #e64a19;
+  transform: scale(1.05);
 }
 
-/* Dark Mode for Buttons */
 body.dark-mode .theme-toggle {
   background: #6d4c41;
 }
@@ -79,27 +81,55 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+li:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 body.dark-mode li {
   background: rgba(60, 60, 60, 0.6);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode li:hover {
+  background: rgba(70, 70, 70, 0.7);
 }
 
 body.dark-mode li.completed {
-  background: rgba(100, 100, 100, 0.5);
-  color: #aaa;
+  background: rgba(80, 80, 80, 0.5);
+  color: #f1f1f1;
+}
+
+/* Add Task Button */
+button,
+.delete-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #43a047;
+  transform: scale(1.05);
+}
+
+body.dark-mode button {
+  background: #388e3c;
+}
+
+body.dark-mode button:hover {
+  background: #2e7d32;
 }
 
 /* Delete Button */
 .delete-btn {
   background: #d32f2f;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .delete-btn:hover {
