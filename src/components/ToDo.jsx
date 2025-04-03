@@ -38,10 +38,13 @@ export default function ToDo() {
   }, []);
 
   const addTask = () => {
-    if (newTask.trim() === "") return;
+    if (newTask.trim() === "") {
+      alert("Task cannot be empty!");
+      return;
+    }
     axios
       .post("https://todojango.onrender.com/api/tasks/", {
-        text: newTask,
+        text: newTask.trim(),
         completed: false,
       })
       .then((response) => setTasks([...tasks, response.data]))
