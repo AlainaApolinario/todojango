@@ -21,12 +21,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "corsheaders",
-    "todo",
+    "corsheaders",  # Make sure corsheaders is added
+    "todo",  # Your app
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # CORS middleware should be at the top
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -40,8 +40,9 @@ ROOT_URLCONF = "backend.urls"
 
 # ✅ Allow both local and deployed frontend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",                  # Vite (local dev)
-    "https://todo-frontend.onrender.com",     # Replace with your actual frontend Render URL
+    "http://localhost:5173",  # Vite (local dev)
+    "https://alainaapolinario.github.io",  # Frontend deployed on GitHub Pages
+    "https://todo-frontend.onrender.com",  # Your deployed frontend on Render (if different)
 ]
 
 REST_FRAMEWORK = {
