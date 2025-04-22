@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
 from .models import Task
 from .serializers import TaskSerializer
 
-class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all().order_by("-id")
+class TaskViewSet(ModelViewSet):
+    queryset = Task.objects.all().order_by('-created_at')  # Order by newest first
     serializer_class = TaskSerializer

@@ -52,6 +52,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://todo-frontend.onrender.com",
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",  # Allow all users to access the API
